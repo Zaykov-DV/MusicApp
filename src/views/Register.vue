@@ -17,12 +17,20 @@
           <span class="auth__error" v-for="error in v$.email.$errors" :key="error.$uid">{{ error.$message }}</span>
         </div>
         <div class="auth__input auth__input_register">
-          <BaseInput v-if="showPassword" type="text" class="input" v-model="formData.password" />
-          <BaseInput v-else type="password" placeholder="Password" v-model="formData.password" />
-          <div class="auth__icon" @click="toggleShow">
-           <i v-if="showPassword" class="fa fa-solid fa-eye"></i>
-            <i v-if="!showPassword" class="fa fa-solid fa-eye-slash"></i>
-          </div>
+          <BaseInput v-if="showPassword" type="text" class="input" v-model="formData.password" withIcon="true">
+            <slot>
+              <div class="auth__icon" @click="toggleShow">
+                <i v-if="showPassword" class="fa fa-solid fa-eye"></i>
+              </div>
+            </slot>
+          </BaseInput>
+          <BaseInput v-else type="password" placeholder="Password" v-model="formData.password" withIcon="true">
+            <slot>
+              <div class="auth__icon" @click="toggleShow">
+                <i v-if="!showPassword" class="fa fa-solid fa-eye-slash"></i>
+              </div>
+            </slot>
+          </BaseInput>
           <span class="auth__error" v-for="error in v$.password.$errors" :key="error.$uid">{{ error.$message }}</span>
         </div>
         <div class="auth__input auth__input_register">
@@ -85,7 +93,7 @@ const submitForm = async () => {
           loading.value = false
         })
   } else {
-    errorMsg.value = 'error, form not submittet'
+    errorMsg.value = 'error, form not submitted'
   }
 }
 

@@ -112,6 +112,8 @@ const updateRating = async (stars) => {
     padding-bottom: 12px;
     margin-bottom: 12px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    min-height: 55px;
+
     &:last-child {
       border-bottom: none;
     }

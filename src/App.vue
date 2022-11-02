@@ -96,61 +96,6 @@ header {
   }
 }
 
-.search {
-  background-color: #112A30;
-  color: #FCFCFC;
-  padding: 12px 16px;
-}
-
-.vinyls {
-  height: 100%;
-}
-
-.vinyl {
-  &__item {
-    display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    color: #FCFCFC;
-    height: 70px;
-    background: #112A30;
-    box-shadow: 0px 0px 2px #51C4D3;
-  }
-
-  &__info {
-    display: flex;
-    flex-direction: column;
-    margin-left: 12px;
-  }
-
-  &__img {
-    max-height: 50px;
-    max-width: 50px;
-  }
-
-  &__album {
-    font-size: 16px;
-  }
-
-  &__artist {
-    font-size: 14px;
-  }
-
-  &__year {
-    font-size: 12px;
-  }
-
-  &__delete {
-    background: #51C4D3;
-    color: #0e0c0c;
-    margin-left: auto;
-    width: 32px;
-    height: 32px;
-    border: none;
-    border-radius: 8px;
-  }
-}
-
 .footer {
   display: flex;
   align-items: center;

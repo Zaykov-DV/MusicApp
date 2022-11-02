@@ -10,12 +10,20 @@
       <form class="auth__inputs" @submit.prevent="signIn">
         <BaseInput class="auth__input" type="text" placeholder="Email" v-model="email"/>
         <div class="auth__input">
-          <BaseInput v-if="showPassword" type="text" placeholder="Password" v-model="password"/>
-          <BaseInput v-else type="password" placeholder="Password" v-model="password"/>
-          <div class="auth__icon" @click="toggleShow">
-            <i v-if="showPassword" class="fa fa-solid fa-eye"></i>
-            <i v-if="!showPassword" class="fa fa-solid fa-eye-slash"></i>
-          </div>
+          <BaseInput v-if="showPassword" type="text" placeholder="Password" v-model="password"  withIcon="true">
+            <slot>
+              <div class="auth__icon" @click="toggleShow">
+                <i v-if="showPassword" class="fa fa-solid fa-eye"></i>
+              </div>
+            </slot>
+          </BaseInput>
+          <BaseInput v-else type="password" placeholder="Password" v-model="password" withIcon="true">
+            <slot>
+              <div class="auth__icon" @click="toggleShow">
+                <i v-if="!showPassword" class="fa fa-solid fa-eye-slash"></i>
+              </div>
+            </slot>
+          </BaseInput>
         </div>
         <div class="auth__actions">
           <button class="auth__button" type="submit">Sign In</button>
@@ -119,6 +127,7 @@ const signInWithGoogle = () => {
     align-items: center;
     justify-content: center;
     padding: 20px;
+    position: relative;
   }
 
   &__link {

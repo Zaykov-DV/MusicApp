@@ -1,4 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+
 import Register from './views/Register.vue'
 import Login from './views/Login.vue'
 import VinylItemInfo from './views/VinylItemInfo.vue'
@@ -27,12 +29,18 @@ const router = createRouter({
     {
       path: '/',
       name: 'Home',
-      component: HomePage
+      component: HomePage,
+      beforeEnter(to, from, next) {
+        getCurrentUser ? next() : next('/welcome')
+      },
+      meta: {
+        requiresAuth: true
+      },
     },
     {
       path: '/vinyl/:id',
       name: 'Info',
-      component: VinylItemInfo
+      component: VinylItemInfo,
     },
     {
       path: '/:CatchAll(.*)',
@@ -41,6 +49,32 @@ const router = createRouter({
     }
   ]
 });
+
+const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const removeListener = onAuthStateChanged(
+        getAuth(),
+        (user) => {
+          removeListener();
+          resolve(user)
+        },
+        reject
+    )
+  })
+}
+
+router.beforeEach(async function (to, from, next) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (await getCurrentUser()) {
+      next(true);
+    } else {
+      // alert('you dont have access')
+      next({path: '/welcome'})
+    }
+  } else {
+    next()
+  }
+})
 
 
 export default router;

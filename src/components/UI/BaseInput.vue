@@ -35,6 +35,7 @@ defineProps({
 
 .base-input {
   position: relative;
+  width: 100%;
 
   &__input {
     width: 100%;
@@ -42,15 +43,18 @@ defineProps({
     padding: 4px 4px 4px 30px;
     height: 40px;
     border-radius: 8px;
-    border: 1px solid #51C4D3;
+    border: none;
     color: #fff;
+    outline: none;
+    transition: box-shadow 0.3s ease-in-out;
+    box-shadow: 0px 0px 0px 1px #51C4D3;
 
     &::placeholder {
       color: rgba(255, 255, 255, 0.5);
     }
 
     &:focus {
-      outline: none;
+      box-shadow: 0px 0px 0px 2px #00ccff;
     }
   }
 

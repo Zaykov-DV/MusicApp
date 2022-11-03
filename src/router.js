@@ -7,6 +7,7 @@ import VinylItemInfo from './views/VinylItemInfo.vue'
 import HomePage from './views/HomePage.vue'
 import NotFound from './views/NotFound.vue'
 import Welcome from './views/Welcome.vue'
+import AddVinyl from './views/AddVinyl.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -33,6 +34,14 @@ const router = createRouter({
       beforeEnter(to, from, next) {
         getCurrentUser ? next() : next('/welcome')
       },
+      meta: {
+        requiresAuth: true
+      },
+    },
+    {
+      path: '/add',
+      name: 'AddVinyl',
+      component: AddVinyl,
       meta: {
         requiresAuth: true
       },

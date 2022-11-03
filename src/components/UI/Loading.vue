@@ -13,12 +13,15 @@ export default {
 <style lang="scss" scoped>
 .loading {
   display: flex;
-  height: calc(100% - 46px);
   width: 100%;
   justify-content: center;
   align-items: center;
-  background: #0A2228;
+  background: linear-gradient(180deg, #132C33 0%, rgba(56, 134, 156, 0) 100%), #132C33;
   position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 
   &__icon {
     background: url("/src/assets/vinyl-svgrepo-com.svg") no-repeat center/cover;

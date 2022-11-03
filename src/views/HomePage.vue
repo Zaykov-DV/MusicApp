@@ -1,5 +1,4 @@
 <template>
-  <Loading v-if="loading"/>
   <div class="search">
     <BaseInput class="search__input" placeholder="Search" v-model="search" withIcon="true">
       <slot>
@@ -9,6 +8,7 @@
   </div>
   <ul class="vinyls">
     <VinylItem v-for="vinyl in filteredList" :key="vinyl.id" :vinyl="vinyl"/>
+    <Loading v-if="loading"/>
   </ul>
 </template>
 

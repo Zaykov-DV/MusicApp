@@ -1,9 +1,5 @@
 <template>
-  <main class="main">
-    <div class="main__container">
-      <Additional v-on:getVinyl="getVinyl" :currentVinyl="currentVinyl" />
-    </div>
-  </main>
+  <Additional v-on:getVinyl="getVinyl" :currentVinyl="currentVinyl" />
   <Loading v-if="loading" />
 </template>
 

@@ -8,57 +8,27 @@
         <router-view />
       </div>
     </main>
-    <footer v-if="!authPage && !welcomePage" class="footer">
-      <router-link class="footer__action" :to="'/'">
-        <i class="fa fa-home"></i>
-        Home
-      </router-link>
-      <div class="footer__action" v-if="!notFoundPage" @click="toggleModal">
-        <i class="fa fa-solid fa-compact-disc"></i>
-        Add Vinyl
-      </div>
-      <div class="footer__action" v-if="!notFoundPage" @click="handleSignOut">
-        <i class="fa fa-sign-out-alt"></i>
-        Exit
-      </div>
-    </footer>
-    <AddVinyl v-show="modalOpen"
-              v-on:close-modal="toggleModal"/>
+    <Footer v-if="!authPage && !welcomePage"/>
   </div>
 </template>
 
 <script setup>
 import {ref, watchEffect} from "vue";
-import AddVinyl from "@/components/AddVinyl";
-import { getAuth, signOut } from "firebase/auth";
-import { useRoute, useRouter } from "vue-router";
+
+import { useRoute } from "vue-router";
+import Footer from "@/components/Footer";
 
 const route = useRoute()
-const router = useRouter()
-const modalOpen = ref(false)
-
-const toggleModal = () => {
-  modalOpen.value = !modalOpen.value
-}
 
 const authPage = ref(false)
-const notFoundPage = ref(false)
 const welcomePage = ref(false)
 
 watchEffect(() => {
   authPage.value = route.name === 'Login' || route.name === 'Register'
-  notFoundPage.value = route.name === 'NotFound'
   welcomePage.value = route.name === 'Welcome'
 })
 
-const handleSignOut = () => {
-  const auth = getAuth()
 
-  signOut(auth)
-      .then(() => {
-        router.push({name: 'Login'})
-      })
-}
 </script>
 
 <style lang="scss">
@@ -93,31 +63,6 @@ header {
 
   &__container {
     height: 100%;
-  }
-}
-
-.footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  color: #FCFCFC;
-  background: #132C33;
-  box-shadow: 0px 0px 2px #51C4D3;
-  height: 44px;
-
-  &__action {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    color: #fff;
-    text-decoration: none;
-    white-space: nowrap;
-
-    i {
-      margin-right: 8px;
-    }
   }
 }
 </style>

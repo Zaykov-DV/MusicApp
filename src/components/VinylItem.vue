@@ -13,9 +13,9 @@
 </template>
 
 <script setup>
-import {ref, defineProps} from "vue";
+import { ref, defineProps } from "vue";
 import db from '../firebase'
-import {useRouter} from "vue-router";
+import { useRouter } from "vue-router";
 
 const router = useRouter()
 const id = ref(null)

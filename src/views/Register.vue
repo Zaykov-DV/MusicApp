@@ -17,14 +17,14 @@
           <span class="auth__error" v-for="error in v$.email.$errors" :key="error.$uid">{{ error.$message }}</span>
         </div>
         <div class="auth__input auth__input_register">
-          <BaseInput v-if="showPassword" type="text" class="input" v-model="formData.password" withIcon="true">
+          <BaseInput v-if="showPassword" type="text" class="input" v-model="formData.password" withIcon>
             <slot>
               <div class="auth__icon" @click="toggleShow">
                 <i v-if="showPassword" class="fa fa-solid fa-eye"></i>
               </div>
             </slot>
           </BaseInput>
-          <BaseInput v-else type="password" placeholder="Password" v-model="formData.password" withIcon="true">
+          <BaseInput v-else type="password" placeholder="Password" v-model="formData.password" withIcon>
             <slot>
               <div class="auth__icon" @click="toggleShow">
                 <i v-if="!showPassword" class="fa fa-solid fa-eye-slash"></i>
@@ -39,7 +39,7 @@
         </div>
       </form>
       <div class="auth__actions">
-        <button class="auth__button" type="submit">Sign Up</button>
+        <button class="auth__button" type="submit" @click="register">Sign Up</button>
         <button class="auth__button" @click="signInWithGoogle">
           <i class="auth__button-icon fab fa-google"></i>Sign Up with Google</button>
       </div>
@@ -112,7 +112,7 @@ const register = async () => {
   })
       .then(() => {
         console.log('Successfully registered')
-        router.push({name: 'AddCity'})
+        router.push({name: 'Home'})
       })
       .catch((error) => {
         switch (error.code) {

@@ -11,7 +11,7 @@
 
 <script setup>
 
-import {defineProps, defineEmits, ref} from "vue";
+import { defineProps, defineEmits, ref } from "vue";
 
 const emit = defineEmits(['changeRating'])
 
@@ -45,7 +45,6 @@ const rate = (star) => {
 $active-color: #51C4D3;
 
 .rating {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   font-size: 22px;
   color: #a7a8a8;
 }

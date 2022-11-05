@@ -1,21 +1,13 @@
 <template>
     <div class="welcome">
       <div class="welcome__logo"></div>
-
       <h1 class="welcome__title">Welcome To My Vinyls</h1>
-
       <div class="welcome__links">
         <router-link class="welcome__link" to="/register"><h3>Sign Up</h3></router-link>
         <router-link class="welcome__link welcome__link_login" to="/login"><h3>Log In</h3></router-link>
       </div>
     </div>
 </template>
-
-<script>
-export default {
-  name: "Welcome"
-}
-</script>
 
 <style scoped lang="scss">
 .welcome {
@@ -61,6 +53,5 @@ export default {
       color: #51C4D3;
     }
   }
-
 }
 </style>

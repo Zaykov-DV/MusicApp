@@ -13,13 +13,12 @@
 </template>
 
 <script setup>
-import {ref, watchEffect} from "vue";
-
+import { ref, watchEffect } from "vue";
 import { useRoute } from "vue-router";
+
 import Footer from "@/components/Footer";
 
 const route = useRoute()
-
 const authPage = ref(false)
 const welcomePage = ref(false)
 
@@ -27,8 +26,6 @@ watchEffect(() => {
   authPage.value = route.name === 'Login' || route.name === 'Register'
   welcomePage.value = route.name === 'Welcome'
 })
-
-
 </script>
 
 <style lang="scss">

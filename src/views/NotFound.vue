@@ -3,7 +3,6 @@
     <div class="not-found__container">
       <div class="not-found__error">404</div>
       <h3 class="not-found__info">Page not found</h3>
-<!--      <router-link class="not-found__router-link" :to="{ name: 'Home' }">Back to Home Page</router-link>-->
     </div>
   </div>
 </template>

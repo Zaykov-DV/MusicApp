@@ -22,7 +22,7 @@
 
 <script setup>
 import db from '../firebase'
-import {ref} from "vue";
+import { ref } from "vue";
 
 const artist = ref('')
 const album = ref('')

@@ -1,6 +1,6 @@
 <template>
   <div class="search">
-    <BaseInput class="search__input" placeholder="Search" v-model="search" withIcon="true">
+    <BaseInput class="search__input" placeholder="Search artist" v-model="search" withIcon>
       <slot>
         <i class="fa fa-solid fa-search"></i>
       </slot>
@@ -13,16 +13,20 @@
 </template>
 
 <script setup>
-import VinylItem from "@/components/VinylItem";
-import {ref, onMounted, computed} from "vue";
 import Loading from "@/components/UI/Loading";
-import db from "@/firebase";
+import VinylItem from "@/components/VinylItem";
 import BaseInput from "@/components/UI/BaseInput";
+
+import { ref, onMounted, computed } from "vue";
+import db from "@/firebase";
 
 const vinyls = ref([])
 const loading = ref(false)
-
 const search = ref('')
+
+onMounted(() => {
+  getMyVinyls()
+})
 
 const filteredList = computed(() => {
   return vinyls.value.filter(vinyl => {
@@ -52,24 +56,18 @@ const getMyVinyls = () => {
           console.log(error)
         }
       } else if (doc.type === 'removed') {
-        vinyls.value = vinyls.value.filter(city => city.id !== doc.doc.id)
+        vinyls.value = vinyls.value.filter(vinyls => vinyls.id !== doc.doc.id)
       }
     })
   })
 }
-
-onMounted(() => {
-  getMyVinyls()
-})
-
 </script>
 
-<style lang="scss">
 
+<style lang="scss">
 .search {
   background-color: #112A30;
   color: #FCFCFC;
   padding: 12px 16px;
 }
-
 </style>

@@ -17,13 +17,16 @@
       </div>
       <button @click="addVinyl" class="add-vinyl__button">Add New Vinyl</button>
     </div>
+    <Loading v-if="loading"/>
   </div>
 </template>
 
 <script setup>
+import Loading from "@/components/UI/Loading";
 import db from '../firebase'
-import { ref } from "vue";
+import {ref} from "vue";
 
+const loading = ref(false)
 const artist = ref('')
 const album = ref('')
 const year = ref('')
@@ -55,6 +58,7 @@ const onFilePicked = (event) => {
 const addVinyl = async () => {
   let id = Math.round(Math.random()) * 10
   try {
+    loading.value = true
     await db.collection('vinyls')
         .doc()
         .set({
@@ -67,9 +71,11 @@ const addVinyl = async () => {
           imageUrl: imageUrl.value
         })
         .then(() => {
-              reset()
-            }
-        )
+          reset()
+        })
+        .then(() => {
+          loading.value = false
+        })
   } catch {
     console.log('error')
   }

@@ -25,7 +25,7 @@ const props = defineProps({
   },
   hasCounter: {
     type: Boolean,
-    default: true
+    default: false
   }
 })
 

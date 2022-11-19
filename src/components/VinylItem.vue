@@ -6,7 +6,7 @@
       <p class="vinyl__artist">{{ vinyl.artist }}</p>
       <span class="vinyl__year">{{ vinyl.year }}</span>
     </div>
-    <button class="vinyl__delete" @click.stop="removeVinyl">
+    <button v-if="edit" class="vinyl__delete" @click.stop="removeVinyl">
       <i class="fa fa-solid fa-trash"></i>
     </button>
   </div>
@@ -21,7 +21,8 @@ const router = useRouter()
 const id = ref(null)
 
 const props = defineProps({
-  vinyl: Object
+  vinyl: Object,
+  edit: Boolean,
 })
 
 const goToVinyl = () => {
@@ -51,7 +52,7 @@ const removeVinyl = () => {
     align-items: center;
     padding: 12px 16px;
     color: #FCFCFC;
-    height: 70px;
+    min-height: 70px;
     background: #112A30;
     box-shadow: 0px 0px 2px #51C4D3;
   }
@@ -60,6 +61,7 @@ const removeVinyl = () => {
     display: flex;
     flex-direction: column;
     margin-left: 12px;
+    width: 75%;
   }
 
   &__img {
@@ -83,7 +85,7 @@ const removeVinyl = () => {
     background: #51C4D3;
     color: #0e0c0c;
     margin-left: auto;
-    width: 32px;
+    min-width: 32px;
     height: 32px;
     border: none;
     border-radius: 8px;

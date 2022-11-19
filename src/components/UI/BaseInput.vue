@@ -3,9 +3,10 @@
     <label v-if="label">{{ label }}</label>
     <input class="base-input__input" type="text"
            :value="modelValue"
+           :disabled="disabled"
            @input="$emit('update:modelValue', $event.target.value)"
            v-bind="$attrs">
-    <div class="base-input__icon" v-if="withIcon">
+    <div class="base-input__icon" :class="{'is-disabled' : disabled}" v-if="withIcon">
       <slot></slot>
     </div>
   </div>
@@ -24,6 +25,10 @@ defineProps({
     default: ''
   },
   withIcon: {
+    type: Boolean,
+    default: false
+  },
+  disabled: {
     type: Boolean,
     default: false
   }
@@ -56,6 +61,10 @@ defineProps({
     &:focus {
       box-shadow: 0px 0px 0px 2px #00ccff;
     }
+
+    &:disabled {
+      box-shadow: 0px 0px 0px 1px #b7b7b7;
+    }
   }
 
   &__icon {
@@ -68,6 +77,10 @@ defineProps({
     align-items: center;
     justify-content: center;
     color: #51C4D3;
+
+    &.is-disabled {
+      color: #b7b7b7;
+    }
   }
 }
 

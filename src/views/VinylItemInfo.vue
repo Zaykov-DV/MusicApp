@@ -1,40 +1,42 @@
 <template>
-  <div class="vinyl-item-info">
-    <div class="vinyl-item-info__img-wrapper">
-      <img class="vinyl-item-info__img-cover" src="../assets/pnge1gg.png" alt="cover">
-      <img class="vinyl-item-info__img" v-if="currentVinyl.imageUrl" :src="currentVinyl.imageUrl" alt="img">
-      <div v-else class="vinyl-item-info__img vinyl-item-info__img_empty"></div>
+  <div>
+    <div class="vinyl-item-info">
+      <div class="vinyl-item-info__img-wrapper">
+        <img class="vinyl-item-info__img-cover" src="../assets/pnge1gg.png" alt="cover">
+        <img class="vinyl-item-info__img" v-if="currentVinyl.imageUrl" :src="currentVinyl.imageUrl" alt="img">
+        <div v-else class="vinyl-item-info__img vinyl-item-info__img_empty"></div>
+      </div>
+      <div class="vinyl-item-info__info">
+        <div class="vinyl-item-info__info-item">
+          <h4 class="vinyl-item-info__info-title">Album:</h4>
+          <p class="vinyl-item-info__info-descr">{{ currentVinyl.album }}</p>
+        </div>
+        <div class="vinyl-item-info__info-item">
+          <h4 class="vinyl-item-info__info-title">Artist:</h4>
+          <p class="vinyl-item-info__info-descr">{{ currentVinyl.artist }}</p>
+        </div>
+        <div class="vinyl-item-info__info-item">
+          <h4 class="vinyl-item-info__info-title">Year:</h4>
+          <span class="vinyl-item-info__info-descr">{{ currentVinyl.year }}</span>
+        </div>
+        <div class="vinyl-item-info__info-item">
+          <h4 class="vinyl-item-info__info-title">Playlist:</h4>
+          <span class="vinyl-item-info__info-descr">{{ currentVinyl.playlist }}</span>
+        </div>
+        <div class="vinyl-item-info__info-item">
+          <h4 class="vinyl-item-info__info-title">Rating:</h4>
+          <StarRating @click="updateRating(dbStars)" :dbStars="currentVinyl.rating" v-on:changeRating="changeRating" />
+        </div>
+      </div>
     </div>
-    <div class="vinyl-item-info__info">
-      <div class="vinyl-item-info__info-item">
-        <h4 class="vinyl-item-info__info-title">Album:</h4>
-        <p class="vinyl-item-info__info-descr">{{ currentVinyl.album }}</p>
-      </div>
-      <div class="vinyl-item-info__info-item">
-        <h4 class="vinyl-item-info__info-title">Artist:</h4>
-        <p class="vinyl-item-info__info-descr">{{ currentVinyl.artist }}</p>
-      </div>
-      <div class="vinyl-item-info__info-item">
-        <h4 class="vinyl-item-info__info-title">Year:</h4>
-        <span class="vinyl-item-info__info-descr">{{ currentVinyl.year }}</span>
-      </div>
-      <div class="vinyl-item-info__info-item">
-        <h4 class="vinyl-item-info__info-title">Playlist:</h4>
-        <span class="vinyl-item-info__info-descr">{{ currentVinyl.playlist }}</span>
-      </div>
-      <div class="vinyl-item-info__info-item">
-        <h4 class="vinyl-item-info__info-title">Rating:</h4>
-        <StarRating @click="updateRating(dbStars)" :dbStars="currentVinyl.rating" v-on:changeRating="changeRating" hasCounter="false"/>
-      </div>
-    </div>
+    <Loading v-if="loading"/>
   </div>
-  <Loading v-if="loading" />
 </template>
 
 <script setup>
 import db from '../firebase'
 import {reactive, ref, onMounted, defineEmits, defineProps} from "vue";
-import { useRoute } from "vue-router";
+import {useRoute} from "vue-router";
 
 import StarRating from "@/components/UI/StarRating"
 import Loading from "@/components/UI/Loading";

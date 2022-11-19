@@ -5,10 +5,14 @@
     </header>
     <main class="main">
       <div class="main__container">
-        <router-view />
+        <router-view :edit="edit" v-slot="{ Component }">
+          <Transition name="slide" mode="out-in">
+            <Component :is="Component" />
+          </Transition>
+        </router-view>
       </div>
     </main>
-    <Footer v-if="!authPage && !welcomePage"/>
+    <Footer v-if="!authPage && !welcomePage" v-on:edit-vinyls="toggleEdit"/>
   </div>
 </template>
 
@@ -21,6 +25,11 @@ import Footer from "@/components/Footer";
 const route = useRoute()
 const authPage = ref(false)
 const welcomePage = ref(false)
+const edit = ref(false)
+
+const toggleEdit = () => {
+  edit.value = !edit.value
+}
 
 watchEffect(() => {
   authPage.value = route.name === 'Login' || route.name === 'Register'
@@ -61,5 +70,16 @@ header {
   &__container {
     height: 100%;
   }
+}
+
+
+// SLIDE transition animation
+.slide-enter-from, .slide-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.slide-enter-active, .slide-leave-active {
+  transition: transform 0.3s ease-out;
 }
 </style>

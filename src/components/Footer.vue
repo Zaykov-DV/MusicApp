@@ -62,6 +62,9 @@ watchEffect(() => {
   background: #132C33;
   box-shadow: 0px 0px 2px #51C4D3;
   height: 44px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 
   &__action {
     display: flex;

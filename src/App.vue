@@ -1,13 +1,12 @@
 <template>
   <div class="app">
-    <header v-if="!welcomePage && !authPage">
-      <h3>Music App</h3>
-    </header>
+    <Header v-if="!welcomePage && !authPage" v-on:sort-by-artist="sortByArtist" v-on:sort-by-year="sortByYear"
+            v-on:sort-by-date="sortByDate"/>
     <main class="main">
       <div class="main__container">
-        <router-view :edit="edit" v-slot="{ Component }">
+        <router-view :edit="edit" :vinyls="vinyls" :loading="loading" v-slot="{ Component }">
           <Transition name="slide" mode="out-in">
-            <Component :is="Component" />
+            <Component :is="Component"/>
           </Transition>
         </router-view>
       </div>
@@ -17,19 +16,88 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from "vue";
-import { useRoute } from "vue-router";
+import {onMounted, ref, watchEffect} from "vue";
+import {useRoute} from "vue-router";
 
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import db from "@/firebase";
 
 const route = useRoute()
 const authPage = ref(false)
 const welcomePage = ref(false)
 const edit = ref(false)
+const loading = ref(false)
+const vinyls = ref([])
 
 const toggleEdit = () => {
   edit.value = !edit.value
 }
+
+onMounted(() => {
+  getMyVinyls()
+})
+
+const getMyVinyls = () => {
+  loading.value = true
+  let firebaseDB = db.collection('vinyls')
+
+  firebaseDB.onSnapshot(snap => {
+    if (snap.docs.length === 0) loading.value = false
+    snap.docChanges().forEach(async (doc) => {
+      if (doc.type === 'added') {
+        try {
+          await firebaseDB.doc(doc.doc.id).update({
+            id: doc.doc.id
+          })
+              .then(() => {
+                vinyls.value.push(doc.doc.data())
+              })
+              .then(() => {
+                loading.value = false
+              })
+        } catch (error) {
+          console.log(error)
+        }
+      } else if (doc.type === 'removed') {
+        vinyls.value = vinyls.value.filter(vinyls => vinyls.id !== doc.doc.id)
+      }
+    })
+  })
+}
+
+const sortByArtist = () => {
+  vinyls.value.sort((a, b) => {
+    if (a.artist.toLowerCase() < b.artist.toLowerCase()) {
+      return -1;
+    }
+    if (a.artist.toLowerCase() > b.artist.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  });
+}
+
+const sortByYear = () => {
+  vinyls.value.sort((a, b) => {
+    if (a.year < b.year) {
+      return -1;
+    }
+    if (a.year > b.year) {
+      return 1;
+    }
+    return 0;
+  });
+}
+
+const sortByDate = () => {
+  vinyls.value.sort((a, b) => {
+    let dateA = new Date(a.addDate).getTime();
+    let dateB = new Date(b.addDate).getTime();
+    return dateA < dateB ? 1 : -1; // ? -1 : 1 for ascending/increasing order
+  })
+}
+
 
 watchEffect(() => {
   authPage.value = route.name === 'Login' || route.name === 'Register'
@@ -53,19 +121,12 @@ watchEffect(() => {
   background: linear-gradient(180deg, #132C33 0%, rgba(56, 134, 156, 0) 100%), #132C33;
 }
 
-header {
-  display: flex;
-  align-items: center;
-  background-color: #0A2228;
-  color: #FCFCFC;
-  padding: 12px 16px;
-}
-
 .main {
   display: flex;
   flex-direction: column;
   flex: 1;
   background: inherit;
+  padding-bottom: 60px;
 
   &__container {
     height: 100%;

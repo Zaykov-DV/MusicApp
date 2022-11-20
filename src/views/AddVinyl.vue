@@ -63,12 +63,13 @@ const addVinyl = async () => {
         .doc()
         .set({
           id: id + year.value,
-          artist: artist.value,
-          album: album.value,
+          artist: artist.value.trim(),
+          album: album.value.trim(),
           year: year.value,
           playlist: playlist.value,
           rating: rating.value,
-          imageUrl: imageUrl.value
+          imageUrl: imageUrl.value,
+          addDate: new Date(Date.now()).toLocaleDateString()
         })
         .then(() => {
           reset()

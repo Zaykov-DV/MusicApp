@@ -6,9 +6,14 @@
           <i class="fa fa-solid fa-search"></i>
         </slot>
       </BaseInput>
+
+
+
     </div>
     <ul class="home-page__vinyls">
-      <VinylItem v-for="vinyl in filteredList" :key="vinyl.id" :vinyl="vinyl" :edit="edit"/>
+      <TransitionGroup name="list">
+        <VinylItem v-for="vinyl in filteredList" :key="vinyl.id" :vinyl="vinyl" :edit="edit"/>
+      </TransitionGroup>
       <Loading class="home-page__loading" v-if="loading"/>
     </ul>
   </div>
@@ -19,58 +24,35 @@ import Loading from "@/components/UI/Loading";
 import VinylItem from "@/components/VinylItem";
 import BaseInput from "@/components/UI/BaseInput";
 
-import {ref, onMounted, computed, defineProps} from "vue";
-import db from "@/firebase";
+import {ref, computed, defineProps} from "vue";
 
-defineProps({
+const props = defineProps({
   edit: Boolean,
+  vinyls: Object,
+  loading: Boolean
 })
 
-const vinyls = ref([])
-const loading = ref(false)
 const search = ref('')
 
-onMounted(() => {
-  getMyVinyls()
-})
-
 const filteredList = computed(() => {
-  return vinyls.value.filter(vinyl => {
+  return props.vinyls.filter(vinyl => {
     return vinyl.artist.toLowerCase().includes(search.value.toLowerCase())
   })
 })
-
-const getMyVinyls = () => {
-  let firebaseDB = db.collection('vinyls')
-
-  firebaseDB.onSnapshot(snap => {
-    if (snap.docs.length === 0) loading.value = false
-    snap.docChanges().forEach(async (doc) => {
-      if (doc.type === 'added') {
-        try {
-          loading.value = true
-          await firebaseDB.doc(doc.doc.id).update({
-            id: doc.doc.id
-          })
-              .then(() => {
-                vinyls.value.push(doc.doc.data())
-              })
-              .then(() => {
-                loading.value = false
-              })
-        } catch (error) {
-          console.log(error)
-        }
-      } else if (doc.type === 'removed') {
-        vinyls.value = vinyls.value.filter(vinyls => vinyls.id !== doc.doc.id)
-      }
-    })
-  })
-}
 </script>
 
 
 <style lang="scss">
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
 
 .home-page {
   height: 100%;

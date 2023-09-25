@@ -1,4 +1,5 @@
 # music-app-firebase
+App for vinyl collection
 
 ## Project setup
 ```
